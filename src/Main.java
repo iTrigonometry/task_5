@@ -13,5 +13,6 @@ public class Main {
         spr.restavrationBook();
         //для примера можно воспользоваться классами из нашего суперкласса
         spr.checkBuyOrSell();
+        //123
     }
 }

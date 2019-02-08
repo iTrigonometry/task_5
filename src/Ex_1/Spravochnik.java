@@ -1,5 +1,5 @@
 package Ex_1;
-
+//123
 public class Spravochnik extends Book{
     boolean burned = false;
     int durability = 1050;

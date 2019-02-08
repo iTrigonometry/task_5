@@ -29,7 +29,7 @@ public class Enciklopedia extends Book{
     }
 
     private void getAnimal(){
-        rand.
+
     }
     private void getPlant(){
 
