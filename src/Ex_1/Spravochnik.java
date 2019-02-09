@@ -1,5 +1,7 @@
 package Ex_1;
 //123
+//TODO Сделать рандомное определение durability
+//TODO Изменить значения для возможности или не возможности восстоновления книги
 public class Spravochnik extends Book {
     boolean burned = false;//изначально книга существуует
     int durability;//прочность книги определяет можно ли восстоновить книгу

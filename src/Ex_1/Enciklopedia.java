@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class Enciklopedia extends Book{
     Random rand = new Random();
-    public Enciklopedia(String name, String incorparate, int year, String encrypt, String author){
+    public Enciklopedia(String name, String incorparate, String year, String encrypt, String author){
         super(name, incorparate, year, encrypt,author);
     }
 

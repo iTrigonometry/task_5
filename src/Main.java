@@ -1,10 +1,11 @@
 import Ex_1.*;
 
+import java.lang.management.GarbageCollectorMXBean;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 /*
 план действий такой
-нужно создать метод программы
+ нужно создать метод программы
 для примера человек заходит в библиотеку и ему предлагают либо купить книгу или взять попользоваться
 если человек покупает книгу, то он имеет полное право на то чтобы делать с книгой что захочет
 если взял попользоваться то его функционал ограничен тем что он может что то прочитать из нее(открыв рандомную страницу) (переписать вывод для всего этого)
@@ -25,19 +26,59 @@ public class Main {
             actionForSpravochnik(spr);
         } else {
             System.out.print("\nВы выбрали справочник. Ох какое совпадение. Вы можете сами заполнить обложку.");
-            Enciklopedia enc = cre();
-            actionForEnciklopedia();
+            Enciklopedia enc = create_Enciklopedia();
+            actionForEnciklopedia(enc);
         }
     }
 
     public static void actionForSpravochnik(Spravochnik spr) {
-
+        System.out.print("\nДействия доступные со Справочником. \n1.Сжечь\n2.Реставрировать\n3.Узнать " +
+                "сожжена ли книга\n4.Узнать можно ли отреставрировать книгу.\n5.Купить книгу\n6.Продать книгу." +
+                "\n7.Узнать информацию о книге.\n8.Вернуть книгу");
+        System.out.print("\nВведите действие: ");
+        int action = input();
+        switch (action) {
+            case 1:
+                spr.burnTheBook();
+                actionForSpravochnik(spr);
+                break;
+            case 2:
+                spr.restavrationBook();
+                actionForSpravochnik(spr);
+                break;
+            case 3:
+                spr.checkBurned();
+                actionForSpravochnik(spr);
+                break;
+            case 4:
+                spr.checkRestavration();
+                actionForSpravochnik(spr);
+                break;
+            case 5:
+                spr.buy();
+                actionForSpravochnik(spr);
+                break;
+            case 6:
+                spr.sell();
+                actionForSpravochnik(spr);
+                break;
+            case 7:
+                spr.getSomeData();
+                actionForSpravochnik(spr);
+                break;
+            case 8:
+                System.out.print("\nВы вернули книгу.");
+                fake_main();
+            case 9:System.exit(0);
+                default:
+                    System.out.print("\nВы ввели данные неверно.");
+                    actionForSpravochnik(spr);
+        }
 
     }
 
 
     public static void actionForEnciklopedia(Enciklopedia enc) {
-
 
     }
 
@@ -45,8 +86,7 @@ public class Main {
         Scanner input = new Scanner(System.in);
         try {
             int action = input.nextInt();
-            input.close();
-            if (action != 1 || action != 2) {
+            if (action != 1 && action != 2) {
                 System.out.print("\nВы ввели неверное значение. Введите заново: ");
                 input();
             }
@@ -55,7 +95,8 @@ public class Main {
             System.out.print("\nВы ввели неверное значение. Введите заново: ");
             input();
         }
-            return 0;
+       // input.close();
+        return 0;
     }
         public static void fake_main () {
             System.out.print("\nПервая книга это справочник а вторая энциклопедия.");
@@ -72,8 +113,19 @@ public class Main {
             String year = input.nextLine();
             String author = input.nextLine();
             String encrypt = "Русский";
-            input.close();
+//            input.close();
             Spravochnik spr= new Spravochnik(name, incorporation, year, encrypt, author, 123);
             return spr;
+        }
+        public static Enciklopedia create_Enciklopedia(){
+            Scanner input = new Scanner(System.in);
+            String name = input.nextLine();
+            String incorporation = input.nextLine();
+            String year = input.nextLine();
+            String author = input.nextLine();
+            String encrypt = "Русский";
+            input.close();
+            Enciklopedia enc= new Enciklopedia(name, incorporation, year, encrypt, author);
+            return enc;
         }
     }
