@@ -1,5 +1,5 @@
 import Ex_1.*;
-
+//TODO переписать метод input, нужна универсальность для всех вводов
 import java.lang.management.GarbageCollectorMXBean;
 import java.util.InputMismatchException;
 import java.util.Scanner;
