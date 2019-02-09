@@ -9,7 +9,7 @@ public class Enciklopedia extends Book{
         super(name, incorparate, year, encrypt,author);
     }
 
-    public void getData(String data){
+    public void getData(String data){//вывод рандомной статьи по одной из тем
         Scanner input = new Scanner(System.in);
         System.out.print("1.Животное 2.Растение 3.Книга\nВведите название одной из тем: ");
         String in = input.next();
@@ -28,13 +28,13 @@ public class Enciklopedia extends Book{
         }
     }
 
-    private void getAnimal(){
+    private void getAnimal(){// выводит рандомную статью из энциклопедии по теме животные
 
     }
-    private void getPlant(){
+    private void getPlant(){// по теме растания
 
     }
-    private void getBook(){
+    private void getBook(){// по теме книга
 
     }
 }

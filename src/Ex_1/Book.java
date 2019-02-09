@@ -1,10 +1,16 @@
 package Ex_1;
-    //123
+
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
+//123
 public abstract class Book {
-    String name, incorparate, encrypt, author;
-    int year;
+    String name, incorparate, encrypt, author, year;
+
+    Scanner input = new Scanner(System.in);
+
     boolean buy = false;
-    public Book(String name, String incorparate, int year, String encrypt, String author){
+    public Book(String name, String incorparate, String year, String encrypt, String author){
         this.name = name;
         this.incorparate = incorparate;
         this.year = year;
@@ -12,14 +18,22 @@ public abstract class Book {
         this.author = author;
     }
 
-    public void buy(){
-        System.out.print("\nКнига куплена");
-        buy = true;
+    public void buy() {
+        if (!buy) {
+            System.out.print("\nКнига куплена");
+            buy = true;
+        } else {
+            System.out.print("Книга уже куплена");
+        }
     }
 
     public void sell(){
-        System.out.print("\nКнига продана");
-        buy = false;
+        if(buy) {
+            System.out.print("\nКнига продана");
+            buy = false;
+        }else{
+            System.out.print("У вас нет этой книги");
+        }
     }
 
     public void checkBuyOrSell(){
@@ -29,4 +43,55 @@ public abstract class Book {
             System.out.print("\nУ вас нет этой книги");
         }
     }
+
+    public void getSomeData(){
+        try {
+            System.out.print("\nЧто вы хотите получить?");
+            System.out.print("\n1.Название книги\n2.Издатель\n3.Год выпуска\n4.Шифр\n5.Автор");
+            int data = input.nextInt();
+            switch (data) {
+                case 1:
+                    getName();
+                    break;
+                case 2:
+                    getIncorparate();
+                    break;
+                case 3:
+                    getYear();
+                    break;
+                case 4:
+                    getEncrypt();
+                    break;
+                case 5:
+                    getAuthor();
+                    break;
+                default:
+                    System.out.print("\nВы ввели данные неверно.");
+                    getSomeData();
+            }
+
+        }catch(InputMismatchException e){
+            System.out.print("\nВы ввели данные неверно.");
+            getSomeData();
+        }
+        }
+        private void getName(){
+            System.out.print("Название книги: " + name);
+        }
+        private void getIncorparate(){
+            System.out.print("Издатель: " + incorparate);
+        }
+        private void getYear(){
+            System.out.print("Год издания: " + year);
+        }
+        private void getEncrypt(){
+            System.out.print("Шифр: " + encrypt);
+        }
+        private void getAuthor(){
+            System.out.print("Автор: " + author);
+        }
+
+        public String getNameForList(){
+            return name;
+        }
 }
