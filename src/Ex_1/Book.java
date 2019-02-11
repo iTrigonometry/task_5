@@ -3,12 +3,13 @@ package Ex_1;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-//123
+
 public abstract class Book {
     String name, incorparate, encrypt, author, year;
-
     Scanner input = new Scanner(System.in);
-
+    //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    //КОНСТРУКТОР
+    //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     boolean buy = false;
     public Book(String name, String incorparate, String year, String encrypt, String author){
         this.name = name;
@@ -17,7 +18,9 @@ public abstract class Book {
         this.encrypt = encrypt;
         this.author = author;
     }
-
+    //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    //ПОКУПКА
+    //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public void buy() {
         if (!buy) {
             System.out.print("\nКнига куплена");
@@ -26,7 +29,9 @@ public abstract class Book {
             System.out.print("Книга уже куплена");
         }
     }
-
+    //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    //ПРОДАЖА
+    //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public void sell(){
         if(buy) {
             System.out.print("\nКнига продана");
@@ -35,7 +40,9 @@ public abstract class Book {
             System.out.print("У вас нет этой книги");
         }
     }
-
+    //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    //ПРОВЕРКА КУПЛЕНО ИЛИ ПРОДАНО
+    //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public void checkBuyOrSell(){
         if (buy){
             System.out.print("\nКнига у вас");
@@ -43,7 +50,9 @@ public abstract class Book {
             System.out.print("\nУ вас нет этой книги");
         }
     }
-
+    //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    //ВЫВОД НУЖНОЙ ПОЛЬЗОВАТЕЛЮ ИНФОРМАЦИИ
+    //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public void getSomeData(){
         try {
             System.out.print("\nЧто вы хотите получить?");
@@ -75,6 +84,9 @@ public abstract class Book {
             getSomeData();
         }
         }
+    //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    //БЛОК ВЫВОДА ИНФОРМАЦИИ
+    //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         private void getName(){
             System.out.print("Название книги: " + name);
         }
@@ -89,9 +101,5 @@ public abstract class Book {
         }
         private void getAuthor(){
             System.out.print("Автор: " + author);
-        }
-
-        public String getNameForList(){
-            return name;
         }
 }
