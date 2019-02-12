@@ -1,9 +1,7 @@
 import Ex_1.*;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.net.URI;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -20,24 +18,25 @@ public class Main {
         fake_main();
     }
 
-    public static void fake_main () {
+    public static void fake_main() {
         System.out.print("\nПервая книга это справочник а вторая энциклопедия.");
         System.out.print("\nВведите номер выборанной книги: ");
         int action = input(true);
         actionToStart(action);
     }
+
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     //БЛОК ДЕЙСВИЙ С КНИГАМИ
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public static void actionToStart(int action) {
         System.out.print("Выбор сделан. Назад дороги нет.");
         if (action == 1) {
-            System.out.print("\nВы выбрали справочник. Ох какое совпадение. Вы можете сами заполнить обложку.");
-            Spravochnik spr = create_Spravochnik();
+            System.out.print("\nВы хотите посмотреть последний справочник(1) или посмотреть на новый(2)? \nВведите цифру:");
+            Spravochnik spr = create_Spravochnik(input(true));
             actionForSpravochnik(spr);
         } else {
-            System.out.print("\nВы выбрали Энциклопедию. Ох какое совпадение. Вы можете сами заполнить обложку.");
-            Enciklopedia enc = create_Enciklopedia(1);
+            System.out.print("\nВы хотите посмотреть последнюю энциклопедию(1) или посмотреть на новую(2)? \nВведите цифру:");
+            Enciklopedia enc = create_Enciklopedia(input(true));
             actionForEnciklopedia(enc);
 
         }
@@ -81,10 +80,11 @@ public class Main {
             case 8:
                 System.out.print("\nВы вернули книгу.");
                 fake_main();
-            case 9:System.exit(0);
-                default:
-                    System.out.print("\nВы ввели данные неверно.");
-                    actionForSpravochnik(spr);
+            case 9:
+                System.exit(0);
+            default:
+                System.out.print("\nВы ввели данные неверно.");
+                actionForSpravochnik(spr);
         }
 
     }
@@ -115,7 +115,8 @@ public class Main {
             case 5:
                 System.out.print("\nВы вернули книгу.");
                 fake_main();
-            case 6:System.exit(0);
+            case 6:
+                System.exit(0);
             default:
                 System.out.print("\nВы ввели данные неверно.");
                 actionForEnciklopedia(enc);
@@ -127,111 +128,137 @@ public class Main {
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     //БЛОК СОЗДАНИЯ ВЫБРАННОЙ КНИГИ
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public static Spravochnik create_Spravochnik(){
-        Scanner input = new Scanner(System.in);
-        Random rand = new Random();
-        System.out.print("\nВведите имя книги:");
-        String name = input.nextLine();
-        System.out.print("\nВведите издательство: ");
-        String incorporation = input.nextLine();
-        System.out.print("\nВедите год издательства: ");
-        String year = input.nextLine();
-        System.out.print("\nВведите автора: ");
-        String author = input.nextLine();
-        String encrypt = "Русский";
-        Spravochnik spr= new Spravochnik(name, incorporation, year, encrypt, author, rand.nextInt(2080));
-        return spr;
-    }
+    public static Spravochnik create_Spravochnik(int action) {
+        String path = "file/spr.properties";
+        Spravochnik spr;
+        try {
+            FileInputStream fis = new FileInputStream("file/enc.properties");
+            Properties prop = new Properties();
+            prop.load(fis);
+            if (action == 2) {
+                Random rand = new Random();
+                path = "file/enc.properties";
+                Scanner input = new Scanner(System.in);
+                System.out.print("\nВведите имя книги:");
+                String name = input.nextLine();
+                rewriter("name", name, path);
+                System.out.print("\nВведите издательство: ");
+                String incorporation = input.nextLine();
+                rewriter("incorparate", incorporation, path);
+                System.out.print("\nВедите год издательства: ");
+                String year = input.nextLine();
+                rewriter("year", year, path);
+                System.out.print("\nВведите автора: ");
+                String author = input.nextLine();
+                rewriter("author", author, path);
+                String encrypt = "Русский";
+                spr = new Spravochnik(name, incorporation, year, encrypt, author, rand.nextInt(2080));
+                return spr;
+            } else {
 
-    public static Enciklopedia create_Enciklopedia(int action){
-        if (action == 2) {
-            String path = "file/enc.properties";
-            Scanner input = new Scanner(System.in);
-            System.out.print("\nВведите имя книги:");
-            String name = input.nextLine();
-            rewriter("name", name, path);
-            System.out.print("\nВведите издательство: ");
-            String incorporation = input.nextLine();
-            rewriter("incorparate", incorporation, path);
-            System.out.print("\nВедите год издательства: ");
-            String year = input.nextLine();
-            rewriter("year", year, path);
-            System.out.print("\nВведите автора: ");
-            String author = input.nextLine();
-            rewriter("author", author, path);
-            String encrypt = "Русский";
-            Enciklopedia enc = new Enciklopedia(name, incorporation, year, encrypt, author);
-            return enc;
-        }else {
-            try {
-                FileInputStream fis = new FileInputStream("file/enc.properties");
-                Properties prop = new Properties();
-                prop.load(fis);
-
-
-
-                Enciklopedia enc = new Enciklopedia(prop.getProperty("name"), prop.getProperty("incorparate"), prop.getProperty("year"), prop.getProperty("encrypt"), prop.getProperty("author"));
-                return enc;
-            }catch (IOException e){
-                e.printStackTrace();
+                Random rand = new Random();
+                spr = new Spravochnik(prop.getProperty("name"), prop.getProperty("incorporate"), prop.getProperty("year"), prop.getProperty("encrypt"), prop.getProperty("aurhor"), rand.nextInt(2080));
+                return spr;
             }
-        return new Enciklopedia("123", "123", "123", "123", "123");
+        }catch (IOException e ){
+            e.printStackTrace();
         }
+        return spr = new Spravochnik("name", "incorparation", "year", "Русский", "author", 2080);
     }
 
 
-    //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    //БЛОК ВВОДА ДАННЫХ
-    //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public static int input(boolean flag) {//метод для ввода данных. если нужно ввести выбор книги то работает первая часть программы, если просто ввести то вторая
-        Scanner input = new Scanner(System.in);
-        if (flag) {//первая часть программы
-            try {
-                int action = input.nextInt();
-                if (action != 1 && action != 2) {
+
+
+        public static Enciklopedia create_Enciklopedia ( int action){
+            if (action == 2) {
+                String path = "file/enc.properties";
+                Scanner input = new Scanner(System.in);
+                System.out.print("\nВведите имя книги:");
+                String name = input.nextLine();
+                rewriter("name", name, path);
+                System.out.print("\nВведите издательство: ");
+                String incorporation = input.nextLine();
+                rewriter("incorparate", incorporation, path);
+                System.out.print("\nВедите год издательства: ");
+                String year = input.nextLine();
+                rewriter("year", year, path);
+                System.out.print("\nВведите автора: ");
+                String author = input.nextLine();
+                rewriter("author", author, path);
+                String encrypt = "Русский";
+                Enciklopedia enc = new Enciklopedia(name, incorporation, year, encrypt, author);
+                return enc;
+            } else {
+                try {
+                    FileInputStream fis = new FileInputStream("file/enc.properties");
+                    Properties prop = new Properties();
+                    prop.load(fis);
+
+
+                    Enciklopedia enc = new Enciklopedia(prop.getProperty("name"), prop.getProperty("incorparate"), prop.getProperty("year"), prop.getProperty("encrypt"), prop.getProperty("author"));
+                    return enc;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return new Enciklopedia("123", "123", "123", "123", "123");
+            }
+        }
+
+
+        //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        //БЛОК ВВОДА ДАННЫХ
+        //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        public static int input ( boolean flag)
+        {//метод для ввода данных. если нужно ввести выбор книги то работает первая часть программы, если просто ввести то вторая
+            Scanner input = new Scanner(System.in);
+            if (flag) {//первая часть программы
+                try {
+                    int action = input.nextInt();
+                    if (action != 1 && action != 2) {
+                        System.out.print("\nВы ввели неверное значение. Введите заново: ");
+                        input(true);
+                    }
+                    return action;
+                } catch (InputMismatchException e) {
                     System.out.print("\nВы ввели неверное значение. Введите заново: ");
                     input(true);
                 }
-                return action;
-            } catch (InputMismatchException e) {
-                System.out.print("\nВы ввели неверное значение. Введите заново: ");
-                input(true);
-            }
-        } else {//вторая часть программы
-            try {
-                int action = input.nextInt();
+            } else {//вторая часть программы
+                try {
+                    int action = input.nextInt();
                     return action;
                 } catch (InputMismatchException e) {
-                System.out.print("\nВы ввели неверное значение. Введите заново: ");
-                input(false);
+                    System.out.print("\nВы ввели неверное значение. Введите заново: ");
+                    input(false);
+                }
             }
-        }
-        return 0;//без этой строчки не работает, потому что нет 100% возвращения
-    }
-
-    //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    //БЛОК ЗАПИСИ ДАННЫХ В ФАЙЛ
-    //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-    public static void rewriter(String parametr, String whatIWant, String paths){
-        try {
-            String file = paths;
-            FileInputStream fis = new FileInputStream(file);
-            Properties prop = new Properties();
-            prop.load(fis);
-
-            String strforrewrite = parametr + "=" + prop.getProperty(parametr);
-
-
-            Path path = Paths.get(file);
-            Charset charset = StandardCharsets.UTF_8;
-
-            String content = new String(Files.readAllBytes(path), charset);
-            content = content.replaceAll(strforrewrite, parametr + "=" + whatIWant);
-            Files.write(path, content.getBytes(charset));
-        }catch(IOException e){
-            e.printStackTrace();
+            return 0;//без этой строчки не работает, потому что нет 100% возвращения
         }
 
-    }
-    }
+        //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        //БЛОК ЗАПИСИ ДАННЫХ В ФАЙЛ
+        //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+        public static void rewriter (String parametr, String whatIWant, String paths){
+            try {
+                String file = paths;
+                FileInputStream fis = new FileInputStream(file);
+                Properties prop = new Properties();
+                prop.load(fis);
+
+                String strforrewrite = parametr + "=" + prop.getProperty(parametr);
+
+
+                Path path = Paths.get(file);
+                Charset charset = StandardCharsets.UTF_8;
+
+                String content = new String(Files.readAllBytes(path), charset);
+                content = content.replaceAll(strforrewrite, parametr + "=" + whatIWant);
+                Files.write(path, content.getBytes(charset));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+}
