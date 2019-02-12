@@ -1,8 +1,10 @@
 package Ex_1;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Date;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -12,6 +14,7 @@ public class Enciklopedia extends Book {
 
     public Enciklopedia(String name, String incorparate, String year, String encrypt, String author) {//конструктор класса
         super(name, incorparate, year, encrypt, author);
+
     }
 
     public void getData() {//вывод рандомной статьи по одной из тем
