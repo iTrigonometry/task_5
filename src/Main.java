@@ -1,5 +1,5 @@
 import Ex_1.*;
-
+//TODO метод ввода работает неправильно. попробовать просто загнать в цикл. как мне кажется  Scanner не запоминает что в него ввели, как и переменная
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -22,6 +22,7 @@ public class Main {
         System.out.print("\nПервая книга это справочник а вторая энциклопедия.");
         System.out.print("\nВведите номер выборанной книги: ");
         int action = input(true);
+        System.out.print("   " + action);
         actionToStart(action);
     }
 
@@ -30,11 +31,13 @@ public class Main {
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public static void actionToStart(int action) {
         System.out.print("Выбор сделан. Назад дороги нет.");
+
+        System.out.print("  " + action);
         if (action == 1) {
             System.out.print("\nВы хотите посмотреть последний справочник(1) или посмотреть на новый(2)? \nВведите цифру:");
             Spravochnik spr = create_Spravochnik(input(true));
             actionForSpravochnik(spr);
-        } else {
+        } else if(action == 2) {
             System.out.print("\nВы хотите посмотреть последнюю энциклопедию(1) или посмотреть на новую(2)? \nВведите цифру:");
             Enciklopedia enc = create_Enciklopedia(input(true));
             actionForEnciklopedia(enc);
@@ -201,12 +204,13 @@ public class Main {
                         System.out.print("\nВы ввели неверное значение. Введите заново: ");
                         input(true);
                     }
+                    System.out.print("   " + action);
                     return action;
                 } catch (InputMismatchException e) {
                     System.out.print("\nВы ввели неверное значение. Введите заново: ");
                     input(true);
                 }
-            } else {//вторая часть программы
+            } else if (!flag){//вторая часть программы
                 try {
                     int action = input.nextInt();
                     return action;
