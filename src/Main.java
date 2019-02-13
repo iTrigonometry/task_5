@@ -129,78 +129,61 @@ public class Main {
     //БЛОК СОЗДАНИЯ ВЫБРАННОЙ КНИГИ
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public static Spravochnik create_Spravochnik(int action) {
-        String path = "file/spr.properties";
+        String path = "file/spr.txt";
         Spravochnik spr;
-        try {
-            FileInputStream fis = new FileInputStream("file/enc.properties");
-            Properties prop = new Properties();
-            prop.load(fis);
             if (action == 2) {
                 Random rand = new Random();
-                path = "file/enc.properties";
+
                 Scanner input = new Scanner(System.in);
                 System.out.print("\nВведите имя книги:");
                 String name = input.nextLine();
-                rewriter("name", name, path);
+                rewriter(0, name, path);
                 System.out.print("\nВведите издательство: ");
                 String incorporation = input.nextLine();
-                rewriter("incorparate", incorporation, path);
+                rewriter(1, incorporation, path);
                 System.out.print("\nВедите год издательства: ");
                 String year = input.nextLine();
-                rewriter("year", year, path);
+                rewriter(2, year, path);
                 System.out.print("\nВведите автора: ");
                 String author = input.nextLine();
-                rewriter("author", author, path);
+                rewriter(3, author, path);
                 String encrypt = "Русский";
                 spr = new Spravochnik(name, incorporation, year, encrypt, author, rand.nextInt(2080));
                 return spr;
             } else {
 
                 Random rand = new Random();
-                spr = new Spravochnik(prop.getProperty("name"), prop.getProperty("incorporate"), prop.getProperty("year"), prop.getProperty("encrypt"), prop.getProperty("aurhor"), rand.nextInt(2080));
+                spr = new Spravochnik(reader(0,path), reader(1, path), reader(2, path),"Русский", reader(3, path), rand.nextInt(3000));
                 return spr;
             }
-        }catch (IOException e ){
-            e.printStackTrace();
-        }
-        return spr = new Spravochnik("name", "incorparation", "year", "Русский", "author", 2080);
+
+        //return spr = new Spravochnik("name", "incorparation", "year", "Русский", "author", 2080);
     }
 
-
-
-
-        public static Enciklopedia create_Enciklopedia ( int action){
-            if (action == 2) {
-                String path = "file/enc.properties";
+        public static Enciklopedia create_Enciklopedia (int action){
+            String path = "file/enc.txt";
+        if (action == 2) {
                 Scanner input = new Scanner(System.in);
                 System.out.print("\nВведите имя книги:");
                 String name = input.nextLine();
-                rewriter("name", name, path);
+                rewriter(0, name, path);
                 System.out.print("\nВведите издательство: ");
                 String incorporation = input.nextLine();
-                rewriter("incorparate", incorporation, path);
+                rewriter(1, incorporation, path);
                 System.out.print("\nВедите год издательства: ");
                 String year = input.nextLine();
-                rewriter("year", year, path);
+                rewriter(2, year, path);
                 System.out.print("\nВведите автора: ");
                 String author = input.nextLine();
-                rewriter("author", author, path);
+                rewriter(3, author, path);
                 String encrypt = "Русский";
                 Enciklopedia enc = new Enciklopedia(name, incorporation, year, encrypt, author);
                 return enc;
-            } else {
-                try {
-                    FileInputStream fis = new FileInputStream("file/enc.properties");
-                    Properties prop = new Properties();
-                    prop.load(fis);
-
-
-                    Enciklopedia enc = new Enciklopedia(prop.getProperty("name"), prop.getProperty("incorparate"), prop.getProperty("year"), prop.getProperty("encrypt"), prop.getProperty("author"));
+            } else{
+                    Enciklopedia enc = new Enciklopedia(reader(0, path),reader(1, path) , reader(2,path), "Русский",reader(3,path));
                     return enc;
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                return new Enciklopedia("123", "123", "123", "123", "123");
+
+//                return new Enciklopedia("123", "123", "123", "123", "123");
             }
         }
 
@@ -208,7 +191,7 @@ public class Main {
         //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         //БЛОК ВВОДА ДАННЫХ
         //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-        public static int input ( boolean flag)
+        public static int input (boolean flag)
         {//метод для ввода данных. если нужно ввести выбор книги то работает первая часть программы, если просто ввести то вторая
             Scanner input = new Scanner(System.in);
             if (flag) {//первая часть программы
@@ -239,26 +222,28 @@ public class Main {
         //БЛОК ЗАПИСИ ДАННЫХ В ФАЙЛ
         //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-        public static void rewriter (String parametr, String whatIWant, String paths){
+        public static void rewriter (int parametr, String whatIWant, String paths){
             try {
-                String file = paths;
-                FileInputStream fis = new FileInputStream(file);
-                Properties prop = new Properties();
-                prop.load(fis);
-
-                String strforrewrite = parametr + "=" + prop.getProperty(parametr);
-
-
-                Path path = Paths.get(file);
+                Path path =  Paths.get(paths);
                 Charset charset = StandardCharsets.UTF_8;
-
                 String content = new String(Files.readAllBytes(path), charset);
-                content = content.replaceAll(strforrewrite, parametr + "=" + whatIWant);
+                String temp = Files.readAllLines(path).get(parametr);
+                content = content.replaceAll(temp, whatIWant);
                 Files.write(path, content.getBytes(charset));
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
+        }
+
+        public static String reader(int parametr, String path) {
+            try {
+                String content = Files.readAllLines(Paths.get(path)).get(parametr);
+                return content;
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+            return "";
         }
 
 }

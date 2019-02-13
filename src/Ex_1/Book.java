@@ -1,5 +1,7 @@
 package Ex_1;
 
+import java.io.FileInputStream;
+import java.nio.charset.Charset;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -87,19 +89,13 @@ public abstract class Book {
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     //БЛОК ВЫВОДА ИНФОРМАЦИИ
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-        private void getName(){
-            System.out.print("Название книги: " + name);
-        }
+        private void getName(){ System.out.print("Название книги: " + name);}
         private void getIncorparate(){
             System.out.print("Издатель: " + incorparate);
         }
-        private void getYear(){
-            System.out.print("Год издания: " + year);
-        }
+        private void getYear(){System.out.print("Год издания: " + year); }
         private void getEncrypt(){
             System.out.print("Шифр: " + encrypt);
         }
-        private void getAuthor(){
-            System.out.print("Автор: " + author);
-        }
+        private void getAuthor(){ System.out.print("Автор: " + author); }
 }
