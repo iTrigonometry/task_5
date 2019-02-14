@@ -59,6 +59,7 @@ public abstract class Book {
         try {
             System.out.print("\nЧто вы хотите получить?");
             System.out.print("\n1.Название книги\n2.Издатель\n3.Год выпуска\n4.Шифр\n5.Автор");
+            System.out.print("\nВведите цифру: ");
             int data = input.nextInt();
             switch (data) {
                 case 1:

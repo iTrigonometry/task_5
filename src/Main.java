@@ -22,7 +22,6 @@ public class Main {
         System.out.print("\nПервая книга это справочник а вторая энциклопедия.");
         System.out.print("\nВведите номер выборанной книги: ");
         int action = input(true);
-        System.out.print("   " + action);
         actionToStart(action);
     }
 
@@ -31,8 +30,6 @@ public class Main {
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public static void actionToStart(int action) {
         System.out.print("Выбор сделан. Назад дороги нет.");
-
-        System.out.print("  " + action);
         if (action == 1) {
             System.out.print("\nВы хотите посмотреть последний справочник(1) или посмотреть на новый(2)? \nВведите цифру:");
             Spravochnik spr = create_Spravochnik(input(true));
@@ -154,7 +151,10 @@ public class Main {
                 spr = new Spravochnik(name, incorporation, year, encrypt, author, rand.nextInt(2080));
                 return spr;
             } else {
-
+                System.out.print("\nНазвание книги: " + reader(0, path));
+                System.out.print("\nИздательство: " + reader(1, path));
+                System.out.print("\nГод издательства: " + reader(2, path));
+                System.out.print("\nАвтор: " + reader(3, path));
                 Random rand = new Random();
                 spr = new Spravochnik(reader(0,path), reader(1, path), reader(2, path),"Русский", reader(3, path), rand.nextInt(3000));
                 return spr;
@@ -196,30 +196,27 @@ public class Main {
         //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         public static int input (boolean flag)
         {//метод для ввода данных. если нужно ввести выбор книги то работает первая часть программы, если просто ввести то вторая
-            Scanner input = new Scanner(System.in);
-            if (flag) {//первая часть программы
-                try {
-                    int action = input.nextInt();
-                    if (action != 1 && action != 2) {
-                        System.out.print("\nВы ввели неверное значение. Введите заново: ");
-                        input(true);
+            boolean done = false;
+            Integer action = null;
+            do{
+                Scanner input = new Scanner(System.in);
+                if (input.hasNextInt() && flag){
+                    action = input.nextInt();
+                    if (action == 1 || action == 2) {
+                        done = true;
+                    }else{
+                        System.out.print("Вы ввели неверное значение. Введите его заново: ");
                     }
-                    System.out.print("   " + action);
-                    return action;
-                } catch (InputMismatchException e) {
-                    System.out.print("\nВы ввели неверное значение. Введите заново: ");
-                    input(true);
+                }else{
+                    if(input.hasNextInt()){
+                        action = input.nextInt();
+                        done = true;
+                    }else{
+                        System.out.print("Вы ввели неверное значение. Введите его заново: ");
+                    }
                 }
-            } else if (!flag){//вторая часть программы
-                try {
-                    int action = input.nextInt();
-                    return action;
-                } catch (InputMismatchException e) {
-                    System.out.print("\nВы ввели неверное значение. Введите заново: ");
-                    input(false);
-                }
-            }
-            return 0;//без этой строчки не работает, потому что нет 100% возвращения
+            }while(!done);
+            return action;
         }
 
         //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
